@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: errbit-deployment
+  labels:
+    app: errbit
+spec:
+  replicas: 2
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: errbit
+  template:
+    metadata:
+      name: errbit-app
+      labels:
+        app: errbit
+    spec:
+      containers:
+      - name: errbit
+        image: errbit/errbit:latest
+        ports:
+          - containerPort: 8080
+        env:
+          - name: PORT
+            value: '8080'
+          - name: MONGO_URL
+            value: 'mongodb://mongodb-0.mongodb,mongodb-1.mongodb,mongodb-2.mongodb:27017/errbit?replicaSet=rs0'
+          - name: GOOGLE_AUTHENTICATION
+            value: 'false'
+          - name: GOOGLE_CLIENT_ID
+            value: ''
+          - name: GOOGLE_SECRET
+            value: ''
+          - name: RACK_ENV
+            value: production
+          - name: ERRBIT_USE_GRAVATAR
+            value: 'true'
+          - name: GITHUB_AUTHENTICATION
+            value: 'false'
+          - name: ERRBIT_EMAIL_FROM
+            value: 'alarm@example.com'
+          - name: SMTP_SERVER
+            value: smtp.mailgun.org
+          - name: SMTP_PORT
+            value: '587'
+          - name: SMTP_USERNAME
+            value: 'postmaster@example.com'
+          - name: SMTP_PASSWORD
+            value: ''
+          - name: SMTP_DOMAIN
+            value: 'axs-labs.com'
+          - name: ERRBIT_HOST
+            value: 'errbit.axs-labs.com'
+          - name: ERRBIT_PROTOCOL
+            value: 'https'
+          - name: ERRBIT_PORT
+            value: '443'

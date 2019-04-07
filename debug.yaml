@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mongo-debug
+spec:
+  containers:
+  - name: mongo
+    image: mongo:latest
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always

@@ -1,2 +1,2 @@
 # k8s-errbit
-Deploy Errbit to Kubernetes 
+Kuberntes Resources to deploy Errbit to Kubernetes

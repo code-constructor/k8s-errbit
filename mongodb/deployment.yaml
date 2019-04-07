@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: mongodb-deployment
+  labels:
+    app: mongodb-single
+spec:
+  replicas: 1
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: mongodb-single
+  template:
+    metadata:
+      name: mongodb-single
+      labels:
+        app: mongodb-single
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo
+        command:
+          - mongod
+          - "--bind_ip_all"
+        ports:
+          - containerPort: 27017
